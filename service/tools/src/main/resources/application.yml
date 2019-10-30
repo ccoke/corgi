@@ -1,0 +1,11 @@
+server:
+  port: 9000
+zookeeper:
+  config:
+    connect-string: localhost:2181 # zookeeper地址
+    session-time-out: 3000 # 心跳检测时间周期
+    file: services-config.yml # 配置文件名
+    root: /config # 配置文件根目录
+    public-root: public # 公共配置节点
+    default-context: application # 配置文件名
+    profile-separator: "-" # 配置profile分隔符 如application-dev

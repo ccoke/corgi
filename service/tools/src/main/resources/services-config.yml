@@ -1,0 +1,54 @@
+# 通用配置项
+public:
+  spring:
+    profiles:
+      active: dev
+    cloud:
+      zookeeper:
+        connect-string: localhost:2181 # zookeeper地址
+        config:
+          enabled: true # 使用zookeeper作为配置中心
+          root: /config # 配置目录的名称
+          defaultContext: public # 配置文件名
+          profileSeparator: "-" # 配置profile分隔符 如application-dev
+          watcher:
+            enabled: true # 监控配置变更后是否自动更新
+    servlet:
+      multipart:
+        max-file-size: 30MB
+        max-request-size: 30MB
+  hystrix:
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 15000
+  ribbon:
+    ReadTimeout: 15000
+    ConnectTimeout: 15000
+    okhttp:
+      enabled: true # 使用okhttp
+# gateway-server
+gateway-server:
+  server:
+    port: 8100
+  spring:
+    application:
+      name: gateway-server
+  zuul:
+    prefix: /api
+    host:
+      connect-timeout-millis: 15000
+      socket-timeout-millis: 15000
+    routes:
+      base:
+        patch: /base/**
+        serviceId: base-server
+# base-server
+base-server:
+  server:
+    port: 8200
+  spring:
+    application:
+      name: base-server

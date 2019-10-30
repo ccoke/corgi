@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: gateway-server # 服务名称
+  profiles:
+    active: dev
+  cloud:
+    zookeeper:
+      connect-string: localhost:2181 # zookeeper地址
+      config:
+        enabled: true # 使用zookeeper作为配置中心
+        root: /config # 配置目录的名称
+        defaultContext: public # 配置文件名
+        profileSeparator: "-" # 配置profile分隔符 如application-dev
+        watcher:
+          enabled=true: # 监控配置变更后是否自动更新
+ribbon:
+  okhttp:
+    enabled: true
