@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import site.itcp.tools.zookeeper.config.ZookeeperProperties;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 @Log4j2
 @Service
@@ -83,10 +81,17 @@ public class ZookeeperService {
                 for (Map.Entry<String, String> entry : propertyMap.entrySet()) {
                     String nodePath = nodesPath2 + entry.getKey();
                     Stat stat = zooKeeper.exists(nodePath, true);
+                    String newValue = Optional.ofNullable(entry.getValue()).orElse("");
                     if (stat == null) {
-                        transaction.create(nodePath, entry.getValue().getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                        // 新建
+                        transaction.create(nodePath, newValue.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
                     } else {
-                        transaction.setData(nodePath, entry.getValue().getBytes(), stat.getVersion());
+                        byte[] value = zooKeeper.getData(nodePath, true, stat);
+                        String oldValue = value != null && value.length != 0 ? new String(value) : "";
+                       if (!newValue.equals(oldValue)) {
+                           // 更新
+                           transaction.setData(nodePath, newValue.getBytes(), stat.getVersion());
+                       }
                     }
                 }
             }

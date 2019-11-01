@@ -49,6 +49,7 @@ public:
     ConnectTimeout: 15000
     okhttp:
       enabled: true # 使用okhttp
+  abc: caokele
 # gateway-server
 gateway-server:
   server:

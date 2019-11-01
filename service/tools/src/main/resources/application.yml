@@ -4,7 +4,7 @@ zookeeper:
   config:
     connect-string: localhost:2181 # zookeeper地址
     session-time-out: 3000 # 心跳检测时间周期
-    file: services-config.yml # 配置文件名
+    file: E:/学习/corgi/service/tools/src/main/resources/services-config.yml # 配置文件名
     root: /config # 配置文件根目录
     public-root: public # 公共配置节点
     default-context: application # 配置文件名
