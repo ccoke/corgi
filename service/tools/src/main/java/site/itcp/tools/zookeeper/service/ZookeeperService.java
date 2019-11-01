@@ -8,11 +8,14 @@ import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import site.itcp.tools.zookeeper.config.ZookeeperProperties;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 @Log4j2
 @Service
@@ -102,7 +105,7 @@ public class ZookeeperService {
      */
     private Map<String, Map<String, String>> loadServices() {
         YamlPropertiesFactoryBean factoryBean = new YamlPropertiesFactoryBean();
-        factoryBean.setResources(new ClassPathResource(zookeeperProperties.getFile()));
+        factoryBean.setResources(new FileSystemResource(zookeeperProperties.getFile()));
         Properties properties = factoryBean.getObject();
         Set<Map.Entry<Object, Object>> entries = properties.entrySet();
         Map<String, Map<String, String>> services = new HashMap<>();

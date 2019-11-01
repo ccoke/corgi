@@ -17,6 +17,26 @@ public:
       multipart:
         max-file-size: 30MB
         max-request-size: 30MB
+    datasource:
+      url: jdbc:mysql://127.0.0.1:3306/corgi?charset=utf8mb4&useLegacyDatetimeCode=false&useSSL=false&serverTimezone=Asia/Shanghai
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+      timeout: 5000
+      jedis:
+        pool:
+          max-wait: -1
+          min-idle: 0
+          max-idle: 8
   hystrix:
     command:
       default:
@@ -52,3 +72,6 @@ base-server:
   spring:
     application:
       name: base-server
+  distributed:
+    lock:
+      middleware: redis
